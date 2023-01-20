@@ -16,6 +16,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var db:TodoDatabase
     private lateinit var dao:TodoDao
+
+    private lateinit var adapter:RecyclerViewAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -44,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
 
         //アダプターの作成
-        val adapter = RecyclerViewAdapter()
+        adapter = RecyclerViewAdapter()
         recyclerView.adapter = adapter
 
         //LayoutManagerの設定
@@ -80,5 +82,19 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        GlobalScope.launch{
+            val list = dao.getAll()
+
+            //反映させる時はUIスレッドに戻す
+            this@MainActivity.runOnUiThread{
+                adapter.setList(list)
+            }
+
+        }
     }
 }

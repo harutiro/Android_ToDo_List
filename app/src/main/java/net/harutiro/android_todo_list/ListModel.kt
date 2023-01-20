@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class ListModel (
     //プライマリーキーの作成自動でIDも割り振られる
-    @PrimaryKey val uid: Int,
+    @PrimaryKey(autoGenerate = true) val uid: Int,
     var title:String = "",
     var content:String = ""
 )
