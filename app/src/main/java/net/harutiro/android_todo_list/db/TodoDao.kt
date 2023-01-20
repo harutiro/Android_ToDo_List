@@ -14,4 +14,7 @@ interface TodoDao {
 
     @Delete
     fun delete(list: ListModel)
+
+    @Query("SELECT * FROM listmodel")
+    fun getAll(): List<ListModel>
 }
